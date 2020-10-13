@@ -30,10 +30,11 @@ cars.tib %>%
   select(5,)
 
 #Tidy Data (presentation)
+#wide data
+pop <- read_csv("https://raw.githubusercontent.com/jsgriffin96/r_workshop_4/master/population.csv")
 
-
-
-
+#wide to long
+long_pop <- pivot_longer(pop, c('2018','2019','2020'), names_to = 'year', values_to = 'population')
 
 
 
