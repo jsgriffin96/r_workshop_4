@@ -1,3 +1,4 @@
+setwd("C:/Users/Jarrod/iCloudDrive/School/Fall 2020/AMIC/Workshops/r_workshop_4/data")
 #install.packages("tidyverse")
 library('tidyverse')
 
