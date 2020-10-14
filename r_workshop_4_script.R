@@ -31,18 +31,39 @@ cars.tib %>%
   select(5,)
 
 #Tidy Data (presentation)
+##long v wide
 #wide data
-pop <- read_csv("https://raw.githubusercontent.com/jsgriffin96/r_workshop_4/master/population.csv")
+wide_pop <- read_csv("https://raw.githubusercontent.com/jsgriffin96/r_workshop_4/master/data/wide-population.csv")
 
-#wide to long
-long_pop <- pivot_longer(pop, c('2018','2019','2020'), names_to = 'year', values_to = 'population')
+#convert to tidy
+tidy_pop <- pivot_longer(wide_pop, c('2018','2019','2020'), names_to = 'year', values_to = 'population')
 
-pivot_wider(long_pop)
+#long data
+long_states <- read_csv("https://raw.githubusercontent.com/jsgriffin96/r_workshop_4/master/data/long-population.csv")
+
+#convert to tidy
+tidy_states <- pivot_wider(long_states, names_from = condition, values_from = measure)
 
 
+#separating vs uniting data
+
+state_rate <- read_csv("https://raw.githubusercontent.com/jsgriffin96/r_workshop_4/master/data/state_rate.csv")
+#seperate
+tidy_rate <- separate(state_rate, rate, into = c('deaths', 'population'))
+#unite
+untidy_rate <- unite(tidy_rate, rate, deaths, population, sep='/')
 
 
+#dealing with missing data
+airQ.df <- airquality
+class(airQ.df)
+summary(airQ.df)
+colSums(is.na(airQ.df))
 
+OzoneMean <- mean(airQ.df$Ozone, na.rm = TRUE)
+airQ.df['Ozone'][is.na(airQ.df['Ozone'])] <- OzoneMean
 
+SolarMean <- mean(airQ.df$Solar.R, na.rm = TRUE)
+airQ.df['Solar.R'][is.na(airQ.df['Solar.R'])] <- SolarMean
 
 
