@@ -48,7 +48,7 @@ tidy_states <- pivot_wider(long_states, names_from = condition, values_from = me
 #separating vs uniting data
 
 state_rate <- read_csv("https://raw.githubusercontent.com/jsgriffin96/r_workshop_4/master/data/state_rate.csv")
-#seperate
+#separate
 tidy_rate <- separate(state_rate, rate, into = c('deaths', 'population'))
 #unite
 untidy_rate <- unite(tidy_rate, rate, deaths, population, sep='/')
@@ -60,10 +60,48 @@ class(airQ.df)
 summary(airQ.df)
 colSums(is.na(airQ.df))
 
+#mean replacement
 OzoneMean <- mean(airQ.df$Ozone, na.rm = TRUE)
 airQ.df['Ozone'][is.na(airQ.df['Ozone'])] <- OzoneMean
 
 SolarMean <- mean(airQ.df$Solar.R, na.rm = TRUE)
 airQ.df['Solar.R'][is.na(airQ.df['Solar.R'])] <- SolarMean
+
+#data transformation with dplyr 
+#filter rows
+cars <- mtcars
+v8_automatic <- filter(cars, cyl == 8, am == 0)
+
+#arrange
+arrange(cars, mpg)
+arrange(cars, desc(mpg))
+
+#select
+select(cars, mpg, cyl, hp, wt)
+
+#mutate
+mutate(cars, powerToWeight = hp/wt)
+
+#summarise
+
+summarise(cars, avgMPG = mean(mpg)) #not that useful
+
+by_cyl <- group_by(cars, cyl) #group by cylinders
+summarise(by_cyl, avgMPG = mean(mpg)) #summarise function now gives output by cylinders
+
+#grouped mutates and filters (combine what we did before)
+#pipe
+cars %>%
+  select(mpg, cyl, hp, wt) %>% #select only these cols
+  mutate(ptw=hp/wt) %>%       #calculate power to weight ratio
+  filter(mpg>18, ptw > 50)            #filter by power to weight and mpg
+  
+
+
+  
+
+
+
+
 
 
