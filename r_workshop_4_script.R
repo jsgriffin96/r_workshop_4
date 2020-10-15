@@ -95,13 +95,67 @@ cars %>%
   select(mpg, cyl, hp, wt) %>% #select only these cols
   mutate(ptw=hp/wt) %>%       #calculate power to weight ratio
   filter(mpg>18, ptw > 50)            #filter by power to weight and mpg
+
+#pipe example w/o pipe
+narrow_cars <- select(cars, mpg, cyl, hp, wt)
+narrow_cars <- mutate(narrow_cars, ptw=hp/wt)
+narrow_cars <- filter(narrow_cars, mpg>18, ptw > 50)  
+
+#relational data
+
+
+#strings
+first <- 'Jarrod'
+last <- 'Griffin'
+str_length(first)
+
+full <- str_c(first, last, sep = ', ')
+
+str_sub(full, start = 1, end = 6)
+
+#factors (categorical data)
+feeling <- c('Happy', 'Upset', 'Neutral')
+
+feeling_levels <- c('Happy', 'Neutral', 'Upset') #check order here
+
+feeling <- factor(feeling, levels = feeling_levels)  
+sort(feeling)
+
+fct_recode(feeling, "Impartial" = "Neutral")
   
-
-
+#dates and times (date, time, date-time)
+library(lubridate)
+today()
+now()
   
+#from string
+ymd('2020-10-15')
 
+dmy_hm('15-10-2020 15:16') #can also provide tz param
 
+####Converting between data types
+##Good ideas
+#Character to numeric
+price <- "1450"
+newPrice <- price + 100 #error, why?
+price <- as.numeric(price)
+newPrice <- price + 100
 
+#Numeric to character
+zipcode <- 90210
+zipcode <- zipcode + 15 #this makes no sense, why would we do this?
+zipcode <- as.character(zipcode) #storing as char prevents the above
+
+##Bad Ideas
+#decimal numeric to int
+taxRate <- 0.03 # 3% tax rate
+taxRate <- as.integer(taxRate) #turns to 0
+
+#decimal numeric to character
+gravity <- 9.81
+gravity <- as.character(gravity)
+  
+  
 
 
 
